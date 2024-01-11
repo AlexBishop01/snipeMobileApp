@@ -1,14 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLOPS Snipe Mobile</title>
+    <title>Asset Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <p>hi</p>
+    <div class="container">
+        <h2>Search Asset</h2>
+        <form id="assetSearchForm">
+            <div class="form-group">
+                <label for="assetTag">Asset Tag</label>
+                <input type="text" class="form-control" id="assetTag" placeholder="Enter Asset Tag">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#assetSearchForm').on('submit', function (e) {
+                e.preventDefault();
+                var assetTag = $('#assetTag').val();
+                $.ajax({
+                    url: 'https://sweetwater.snipe-it.io/api/v1/hardware/bytag/' + assetTag,
+                    headers: {
+                        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjc5NDllMmViN2YzYjZjNzQ4ZjBjNmI1YTIyYTg0N2YyYTQ1NjlmMDllYjNlNTlkZGE3MTkzYmY3NjEyMzFiNjQ0YmI0MTg2MWQzYTE2ZDMiLCJpYXQiOjE3MDUwMDA4NjguMjE3ODQxLCJuYmYiOjE3MDUwMDA4NjguMjE3ODQ4LCJleHAiOjIzMzYxNTI4NjguMjAxMTEzLCJzdWIiOiI2MDI2Iiwic2NvcGVzIjpbXX0.NOYzEulsJXM-ws0EAVsminJ-aEad9d0ATsfdGkZ5Y85EdmMbQH-qZm7m3b6KuOFL1pUyLkoHV5kfB7cO45DBopkf7qOyCkDKKjmggQD8knW-STSO7sSGd7Fy9xXJXG-ZhVUARXjfc7QlbZxKCVV5ns0Jbp52BnTk-1Z-vejgpv86y-H2qyOM5AEF0RQL4CWg9aW6TN3uoa7N_gZnhsTVrRIV-NuP0JZn8GL8YsYLx9Rsl1Cl7RkbRthk4LGVdt3ORr3jTbmWRmHwKVdQLj-RzD31Ty8Gk9Q4BKQH9BtHf51BDlQhsDU8BjB2l2qbQLAlHf7IAEqY8ZciHC_Lulq0xjcTYCcMa1OGvJuT1SLFSe41EqFFbq4VfsLc5sMtfN0-NmFrA6c3VbWvq_oymOQEXmRmCU6YfSLrvWKDwQnf6IhRgbuWNeLuBfsp_RF0El6jEYWYmIyxoYy-BGDmhNygBkb6jkw2ry5seog--ojUa7jQeSVROh4hX-n1HkZrxY07T_Mmu2Hs8A2MlKG06FQji82ayIy82ZiLkveWQY3b7Bj2JoFLEIULzV-b_-BJ-0d-558EViDt6Gxc0r0H1uFhQZtgLKYVN2du-tZaWIteE5ZkuQV431P6k-Qe8FaDOmdqQPZl-JvLA_EtM0PXDddO9muN2hInV68YgIeONBWUDXM'
+                    },
+                    success: function (data) {
+                        // Display the result
+                        $('#result').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+                    },
+                    error: function (error) {
+                        $('#result').html('<p>Error retrieving data.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>
